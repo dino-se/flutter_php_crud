@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   String selectedCategoryId = "";
   // IPV4 Address
-  String apiAddress = "";
+  String apiAddress = "http://192.168.0.0/flutter_php_crud/";
 
   TextEditingController addItemController = TextEditingController();
   TextEditingController editItemController = TextEditingController();
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      var response = await http.get(Uri.parse("http://$apiAddress/api/get.php"));
+      var response = await http.get(Uri.parse("$apiAddress/api/get.php"));
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
         setState(() {
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      final Uri url = Uri.parse("http://$apiAddress/api/post.php");
+      final Uri url = Uri.parse("$apiAddress/api/post.php");
 
       final Map<String, String> data = {
         'name': addItemController.text,
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final encodedCategoryId = Uri.encodeComponent(categoryId);
-      final Uri url = Uri.parse("http://$apiAddress/api/update.php?id=$encodedCategoryId");
+      final Uri url = Uri.parse("$apiAddress/api/update.php?id=$encodedCategoryId");
 
       final Map<String, String> data = {
         'name': editItemController.text,
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final encodedCategoryId = Uri.encodeComponent(categoryId);
-      final Uri url = Uri.parse("http://$apiAddress/api/delete.php?id=$encodedCategoryId");
+      final Uri url = Uri.parse("$apiAddress/api/delete.php?id=$encodedCategoryId");
 
       final response = await http.delete(url);
 
