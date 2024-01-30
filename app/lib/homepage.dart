@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import ' category.dart';
+import 'category.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +12,8 @@ class _HomePageState extends State<HomePage> {
   List<Cats> categories = [];
   bool isLoading = false;
   String selectedCategoryId = "";
+  // IPV4 Address
+  String apiAddress = "";
 
   TextEditingController addItemController = TextEditingController();
   TextEditingController editItemController = TextEditingController();
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      var response = await http.get(Uri.parse("http:youripv4/api/get.php"));
+      var response = await http.get(Uri.parse("http://$apiAddress/api/get.php"));
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
         setState(() {
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     try {
-      final Uri url = Uri.parse("http:youripv4/api/post.php");
+      final Uri url = Uri.parse("http://$apiAddress/api/post.php");
 
       final Map<String, String> data = {
         'name': addItemController.text,
@@ -95,7 +97,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final encodedCategoryId = Uri.encodeComponent(categoryId);
-      final Uri url = Uri.parse("http:youripv4/api/update.php?id=$encodedCategoryId");
+      final Uri url = Uri.parse("http://$apiAddress/api/update.php?id=$encodedCategoryId");
 
       final Map<String, String> data = {
         'name': editItemController.text,
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final encodedCategoryId = Uri.encodeComponent(categoryId);
-      final Uri url = Uri.parse("http:youripv4/api/delete.php?id=$encodedCategoryId");
+      final Uri url = Uri.parse("http://$apiAddress/api/delete.php?id=$encodedCategoryId");
 
       final response = await http.delete(url);
 
